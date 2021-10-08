@@ -1,0 +1,1 @@
+## src/`test`/resources 디렉토리

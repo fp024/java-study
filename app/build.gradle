@@ -1,0 +1,70 @@
+plugins {
+    // Apply the application plugin to add support for building a CLI application in Java.
+    id 'application'
+    id "io.freefair.lombok" version "${lombokPluginVersion}" // gradle.properties로 별도로 프로퍼티 값들을 분리해두면, 플러그인의 버전에도 사용이 가능하다.
+}
+
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of("${javaVersion}"))
+  }
+}
+
+compileJava.options.encoding = "${projectEncoding}"
+
+tasks.withType(JavaCompile) {
+    options.encoding = "${projectEncoding}"
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+dependencies {
+
+    // This dependency is used by the application.  
+    implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4jSlf4jImplVersion}"
+    implementation "com.google.guava:guava:${guavaVersion}"    
+    implementation "com.google.code.gson:gson:${gsonVersion}"     
+    
+    // Use JUnit Jupiter for testing.
+    testImplementation "org.junit.jupiter:junit-jupiter:${junit5Version}"
+    
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'org.fp024.java.study.App'    
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    /*
+        터미널에서 테스트 클래스 실행 예시
+        > gradlew test --tests *테스트_클래스_명.테스트_메서드_명
+     */
+    useJUnitPlatform()
+    // 터미널에서 테스트 실행시 테스트 실행의 콘솔 출력을 위해 추가.
+    // https://stackoverflow.com/questions/40954017/gradle-how-to-get-output-from-test-stderr-stdout-into-console
+    testLogging {
+        outputs.upToDateWhen {false}
+        showStandardStreams = true
+    }
+}
+
+/**
+   Scanner등으로 표준 입력받는 부분이 있다면..
+   아래 설정을 한다.
+   
+   run {
+    standardInput = System.in
+   }
+   
+   gradlew -q --console plain run 으로 실행
+
+   참고: https://stackoverflow.com/questions/36723447/java-util-scanner-throws-nosuchelementexception-when-application-is-started-with
+ */
+run {
+    standardInput = System.in
+}
