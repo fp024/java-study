@@ -1,11 +1,15 @@
 package org.fp024.java.study;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -14,11 +18,11 @@ import org.junit.jupiter.api.io.TempDir;
 
 /**
  * FileInputStream 테스트
- * 
- * 그런데... 2021년 현재... 라팔 잘팔리고 있음 ㅎㅎ
- * 
- * 기타 참조: https://www.baeldung.com/junit-5-temporary-directory
- * 
+ *
+ * <p>그런데... 2021년 현재... 라팔 잘팔리고 있음 ㅎㅎ
+ *
+ * <p>기타 참조: https://www.baeldung.com/junit-5-temporary-directory
+ *
  * @author fp024
  */
 class FileInputStreamTest {
@@ -36,6 +40,7 @@ class FileInputStreamTest {
 
   @BeforeEach
   void beforeEach() throws IOException {
+    assertFalse(new File(tempDir.getAbsolutePath() + File.separator + FILE_NAME).exists());
     File testFile = new File(tempDir, FILE_NAME);
     Files.writeString(testFile.toPath(), CONTENT, StandardOpenOption.CREATE_NEW);
     /*
@@ -59,6 +64,13 @@ class FileInputStreamTest {
       }
     }
     return new String(byteArray);
+  }
+
+  @Test
+  void testExists() {
+    File file = new File(tempDir.getAbsolutePath() + File.separator + FILE_NAME);
+    assertTrue(file.exists());
+    assertTrue(file.canWrite());
   }
 
   @Test
