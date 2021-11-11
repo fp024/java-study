@@ -1,20 +1,20 @@
 package org.fp024.java.study;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * FileInputStream 테스트
@@ -25,6 +25,7 @@ import org.junit.jupiter.api.io.TempDir;
  *
  * @author fp024
  */
+@Slf4j
 class FileInputStreamTest {
   @TempDir private static File tempDir;
 
@@ -40,8 +41,8 @@ class FileInputStreamTest {
 
   @BeforeEach
   void beforeEach() throws IOException {
-    assertFalse(new File(tempDir.getAbsolutePath() + File.separator + FILE_NAME).exists());
     File testFile = new File(tempDir, FILE_NAME);
+    testFile.delete();
     Files.writeString(testFile.toPath(), CONTENT, StandardOpenOption.CREATE_NEW);
     /*
     try (OutputStreamWriter writer =
@@ -52,7 +53,7 @@ class FileInputStreamTest {
   }
 
   String main() throws IOException {
-    byte[] byteArray = new byte[CONTENT.getBytes().length];
+    byte[] byteArray = new byte[CONTENT.getBytes(StandardCharsets.UTF_8).length];
 
     try (FileInputStream fis =
         new FileInputStream(tempDir.getAbsolutePath() + File.separator + FILE_NAME)) {
@@ -62,6 +63,9 @@ class FileInputStreamTest {
         System.out.print((char) ch); // 한글을 1바이트씩 쪼개서 보여주기 때문에 출력내용이 깨진다.
         byteArray[i++] = (byte) ch;
       }
+
+      LOGGER.info("i:{}",i);
+
     }
     return new String(byteArray);
   }

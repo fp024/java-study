@@ -42,3 +42,9 @@
 * [ ] https://wiki.eclipse.org/Java16/Examples
 * [ ] https://wiki.eclipse.org/Java17/Examples
 
+
+
+### 여러가지 연습용 테스트 코드 모음 프로젝트
+
+* [etc-project](etc-project)
+

@@ -51,6 +51,7 @@ tasks.named('test') {
         outputs.upToDateWhen {false}
         showStandardStreams = true
     }
+    systemProperty "file.encoding", "${projectEncoding}"
 }
 
 /**
@@ -66,5 +67,6 @@ tasks.named('test') {
    참고: https://stackoverflow.com/questions/36723447/java-util-scanner-throws-nosuchelementexception-when-application-is-started-with
  */
 run {
+    systemProperty "file.encoding", "${projectEncoding}"
     standardInput = System.in
 }
