@@ -4,6 +4,9 @@ plugins {
     id "io.freefair.lombok" version "${lombokPluginVersion}" // gradle.properties로 별도로 프로퍼티 값들을 분리해두면, 플러그인의 버전에도 사용이 가능하다.
 }
 
+group = 'org.fp024.java.study'
+version = '0.0.1-SNAPSHOT'
+
 java {
   toolchain {
     languageVersion.set(JavaLanguageVersion.of("${javaVersion}"))
