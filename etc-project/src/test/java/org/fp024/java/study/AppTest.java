@@ -3,12 +3,76 @@
  */
 package org.fp024.java.study;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 
-class AppTest {
-	@Test
-	void test() {
+import java.time.LocalDate;
 
-	}
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+@Getter
+@Setter
+class Apple {
+  private String name;
+  private LocalDate productionDate;
+
+  public Apple(String name, LocalDate productionDate) {
+    this.name = name;
+    this.productionDate = productionDate;
+  }
 }
-		
+
+@Getter
+@Setter
+class Box<T> {
+  private T t;
+}
+
+class AppTest {
+  @Test
+  void rawTypeTest() {
+    // 타입 없이 이렇게 쓴 것은 ...
+    // 마치 Box<Object> rawBox = new Box<>() 처럼 사용한 것과 마찬가지 임.
+    Box rawBox = new Box();
+
+    rawBox.setT(new Apple("청도사과", LocalDate.of(2021, 11, 1)));
+
+    Object unknownTypeObject = rawBox.getT();
+
+    // 이 코드에서는 바로 위에서 Box에 Apple을 넣었다는 것이 바로 보여,
+    // 박스에 들어있는 객체의 실체를 검사할 필요없이 바로 형변환해도 문제가 없을 수 있지만,
+    //
+    // Box에 무엇이 들어갔는지 모르는 복잡한 환경의 프로젝트에서 이루어졌다면 ...
+    // Box에 Apple 타입의 객체가 있는지 확인하기 위해 ...
+    // getClass()로 일치하는 클래스인지 검사하거나 instanceof 로 Apple타입을 상속하는 인스턴스인지 검사해야 함.
+    if (unknownTypeObject instanceof Apple) {
+      Apple apple = (Apple) rawBox.getT();
+
+      System.out.printf("사과 이름: %s%n", apple.getName());
+      System.out.printf("생산 일자: %s%n", apple.getProductionDate());
+      assertEquals("청도사과", apple.getName());
+      assertEquals(LocalDate.of(2021, 11, 1), apple.getProductionDate());
+
+      return;
+    }
+    fail();
+  }
+
+  @Test
+  void genericTypeTest() {
+    Box<Apple> appleBox = new Box<>();
+
+    appleBox.setT(new Apple("청도사과", LocalDate.of(2021, 11, 1)));
+
+    // 제네릭 타입을 명시한 경우 Box에 들어있는 객체가 Apple 타입이거나 Apple을 상속 받는 타입인 것이
+    // 확실하여 Apple 클래스의 멤버 메서드를 형변환 없이 바로 사용할 수 있음.
+    Apple apple = appleBox.getT();
+
+    System.out.printf("사과 이름: %s%n", apple.getName());
+    System.out.printf("생산 일자: %s%n", apple.getProductionDate());
+    assertEquals("청도사과", apple.getName());
+    assertEquals(LocalDate.of(2021, 11, 1), apple.getProductionDate());
+  }
+}
