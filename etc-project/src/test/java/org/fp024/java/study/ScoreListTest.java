@@ -61,7 +61,7 @@ class ScoreListTest {
   }
 
   // ===== 테스트 대상 코드 =====
-  void loadScoreList() {
+  void scoreList() {
     int sum = 0;
     int cnt = 0;
 
@@ -70,12 +70,12 @@ class ScoreListTest {
     try (BufferedReader reader = new BufferedReader(new FileReader(new File(tempDir, FILE_NAME)))) {
       String s;
       while ((s = reader.readLine()) != null) {
-        String[] data = s.split("\\s+"); // (2) 공백으로 자르기 위해서는  대한 정규식 패턴으로 입력할 것
+        String[] data = s.split("\\s+"); // (3) 공백을 기준으로 문자열을 쪼개기 위해서는 정규식 패턴으로 입력하기
         sum += Integer.parseInt(data[1]);
         cnt++;
       }
       System.out.printf(
-          "average: %.2f\n", (float) sum / cnt); // 정수 나눗셈을 하면 소수부가 버려지므로, (float)로 형변환 후 나눔
+          "average: %.2f\n", (float) sum / cnt); // (4) 정수 나눗셈을 하면 소수부가 버려지므로, (float)로 형변환 후 나눔
     } catch (FileNotFoundException e) {
       System.out.println("파일 없음");
     } catch (IOException e) {
@@ -87,7 +87,7 @@ class ScoreListTest {
   /** 테스트 및 검증 실행 */
   @Test
   void testLoadScoreList() {
-    loadScoreList();
+    scoreList();
     assertEquals("average: 76.50\n", outContent.toString());
   }
 }
