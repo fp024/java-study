@@ -78,7 +78,7 @@ class ScoreListTest {
         cnt++;
       }
       System.out.printf(
-          "average: %.2f\n", (float) sum / cnt); // (4) 정수 나눗셈을 하면 소수부가 버려지므로, (float)로 형변환 후 나눔
+          "average: %.2f%n", (float) sum / cnt); // (4) 정수 나눗셈을 하면 소수부가 버려지므로, (float)로 형변환 후 나눔
     } catch (FileNotFoundException e) {
       System.out.println("파일 없음");
     } catch (IOException e) {
@@ -91,6 +91,6 @@ class ScoreListTest {
   @Test
   void testLoadScoreList() {
     scoreList();
-    assertEquals("average: 76.50\n", outContent.toString());
+    assertEquals("average: 76.50" + System.lineSeparator(), outContent.toString());
   }
 }
