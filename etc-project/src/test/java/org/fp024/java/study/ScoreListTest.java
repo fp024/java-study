@@ -42,9 +42,12 @@ class ScoreListTest {
   @BeforeEach
   void beforeEach() throws IOException {
     File testFile = new File(tempDir, FILE_NAME);
-    if (testFile.delete()) {
-      throw new IllegalStateException("임시 테스트 파일 삭제 실패");
+    if (testFile.exists()) {
+      if (!testFile.delete()) {
+        throw new IllegalStateException("이전 임시파일이 남아있고, 삭제에 실패함.");
+      }
     }
+
     Files.writeString(
         testFile.toPath(), CONTENT, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
 
