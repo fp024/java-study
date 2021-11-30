@@ -1,8 +1,12 @@
 package org.fp024.java.study;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.BufferedReader;
@@ -17,12 +21,15 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Slf4j
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ScoreListTest {
-  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-  private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
   private final PrintStream originalOut = System.out;
   private final PrintStream originalErr = System.err;
+  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+  private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
   @TempDir private static File tempDir;
 
@@ -54,6 +61,8 @@ class ScoreListTest {
     // System.out.println 의 출력 캡쳐 설정
     System.setOut(new PrintStream(outContent));
     System.setErr(new PrintStream(errContent));
+    outContent.reset();
+    errContent.reset();
   }
 
   /** System.in, System.out 원상태로 복구 */
@@ -88,9 +97,23 @@ class ScoreListTest {
   // ===========================
 
   /** 테스트 및 검증 실행 */
+  @Order(1)
   @Test
-  void testLoadScoreList() {
+  void testScoreList() {
+    LOGGER.info("testScoreList() - 실행");
     scoreList();
     assertEquals("average: 76.50" + System.lineSeparator(), outContent.toString());
+  }
+
+  /** 테스트가 하나여서 문제가 없었지만, 테스트 실행직전에, outContent, errContent의 내용을 확실하게 비워줄 필요가 있다. */
+  @Order(2)
+  @Test
+  void testOutContentAndErrContentIsEmpty() {
+    LOGGER.info("testOutContentAndErrContentIsEmpty() - 실행");
+    assertEquals(0, outContent.size());
+    assertTrue(outContent.toString().isEmpty());
+
+    assertEquals(0, errContent.size());
+    assertTrue(errContent.toString().isEmpty());
   }
 }
