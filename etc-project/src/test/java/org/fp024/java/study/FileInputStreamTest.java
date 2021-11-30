@@ -1,7 +1,6 @@
 package org.fp024.java.study;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -43,7 +42,8 @@ class FileInputStreamTest {
   void beforeEach() throws IOException {
     File testFile = new File(tempDir, FILE_NAME);
     testFile.delete();
-    Files.writeString(testFile.toPath(), CONTENT, StandardOpenOption.CREATE_NEW);
+    Files.writeString(
+        testFile.toPath(), CONTENT, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW);
     /*
     try (OutputStreamWriter writer =
         new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8)) {
@@ -64,8 +64,7 @@ class FileInputStreamTest {
         byteArray[i++] = (byte) ch;
       }
 
-      LOGGER.info("i:{}",i);
-
+      LOGGER.info("i:{}", i);
     }
     return new String(byteArray);
   }
