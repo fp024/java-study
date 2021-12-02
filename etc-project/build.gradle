@@ -14,10 +14,7 @@ java {
 }
 
 compileJava.options.encoding = "${projectEncoding}"
-
-tasks.withType(JavaCompile) {
-    options.encoding = "${projectEncoding}"
-}
+compileTestJava.options.encoding = "${projectEncoding}"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -33,6 +30,10 @@ dependencies {
     
     // Use JUnit Jupiter for testing.
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5Version}"
+
+    testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
+    testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+
     
 }
 
