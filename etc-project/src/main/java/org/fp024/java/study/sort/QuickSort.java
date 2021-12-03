@@ -1,15 +1,17 @@
 package org.fp024.java.study.sort;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import static org.fp024.java.study.sort.CommonUtils.getMedianIndex;
 import static org.fp024.java.study.sort.CommonUtils.printArray;
 import static org.fp024.java.study.sort.CommonUtils.swap;
 
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 class QuickSort {
+  @Setter private boolean showLog;
+  @Setter private boolean disableMedianPivot;
+
   /**
    * 파티션 <br>
    * 1. pivot에 해당하는 값의 제 위치를 찾아 배치.<br>
@@ -20,8 +22,12 @@ class QuickSort {
    * @param right 처리 범위의 맨 오른쪽
    * @return 자리를 찾은 pivot 인덱스 번호
    */
-  static int partition(int[] array, final int left, final int right) {
+  int partition(int[] array, final int left, final int right) {
+    if (!disableMedianPivot) {
+      swap(array, left, getMedianIndex(array, left, right));
+    }
     int pivot = array[left];
+
     int low = left + 1;
     int high = right;
 
@@ -40,8 +46,10 @@ class QuickSort {
         swap(array, low, high);
       }
 
-      LOGGER.info("low:{}, high:{}", low, high);
-      printArray(array, left, right);
+      if (showLog) {
+        LOGGER.info("low:{}, high:{}", low, high);
+        printArray(array, left, right);
+      }
     }
 
     // 피벗의 제 위치 채워주기
@@ -57,14 +65,14 @@ class QuickSort {
    * @param left 정렬 대상의 가장 왼쪽 인덱스
    * @param right 정렬 대상의 가장 오른쪽 인덱스
    */
-  static void sort(int[] array, int left, int right) {
-    LOGGER.info("left:{}, right:{}", left, right);
-
+  void sort(int[] array, int left, int right) {
+    if (showLog) {
+      LOGGER.info("left:{}, right:{}", left, right);
+    }
     if (left <= right) {
       int pivotIndex = partition(array, left, right);
       sort(array, left, pivotIndex - 1);
       sort(array, pivotIndex + 1, right);
     }
-
   }
 }
