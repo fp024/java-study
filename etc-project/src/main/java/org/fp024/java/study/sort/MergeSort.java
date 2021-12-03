@@ -3,9 +3,11 @@ package org.fp024.java.study.sort;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import static org.fp024.java.study.sort.CommonUtils.printArray;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MergeSort {
-  public static void sort(int[] array, int left, int right) {
+class MergeSort {
+  static void sort(int[] array, int left, int right) {
     int mid = (left + right) / 2;
 
     if (left < right) {
@@ -15,7 +17,7 @@ public class MergeSort {
     }
   }
 
-  private static void merge(int[] array, final int left, final int mid, final int right) {
+  static void merge(int[] array, final int left, final int mid, final int right) {
     System.out.print("병합 전 왼쪽 => ");
     printArray(array, left, mid);
 
@@ -54,12 +56,5 @@ public class MergeSort {
 
     System.out.print("병합 후 => ");
     printArray(array, left, right);
-  }
-
-  private static void printArray(int[] array, int start, int end) {
-    for (int i = start; i <= end; i++) {
-      System.out.printf("%d ", array[i]);
-    }
-    System.out.println();
   }
 }

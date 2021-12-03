@@ -1,16 +1,18 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
-    id "io.freefair.lombok" version "${lombokPluginVersion}" // gradle.properties로 별도로 프로퍼티 값들을 분리해두면, 플러그인의 버전에도 사용이 가능하다.
+    id "io.freefair.lombok" version "${lombokPluginVersion}"
+    // gradle.properties로 별도로 프로퍼티 값들을 분리해두면, 플러그인의 버전에도 사용이 가능하다.
 }
 
 group = 'org.fp024.java.study'
 version = '0.0.1-SNAPSHOT'
 
 java {
-  toolchain {
-    languageVersion.set(JavaLanguageVersion.of("${javaVersion}"))
-  }
+    version = JavaLanguageVersion.of("${javaVersion}")
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of("${javaVersion}"))
+    }
 }
 
 compileJava.options.encoding = "${projectEncoding}"
@@ -22,24 +24,24 @@ repositories {
 }
 
 dependencies {
-
     // This dependency is used by the application.  
     implementation "org.apache.logging.log4j:log4j-slf4j-impl:${log4jSlf4jImplVersion}"
-    implementation "com.google.guava:guava:${guavaVersion}"    
-    implementation "com.google.code.gson:gson:${gsonVersion}"     
-    
+    implementation "com.google.guava:guava:${guavaVersion}"
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
     // Use JUnit Jupiter for testing.
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5Version}"
 
     testImplementation "org.mockito:mockito-junit-jupiter:${mockitoVersion}"
     testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
 
-    
+    testImplementation "org.springframework:spring-test:${springFrameworkVersion}"
+
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.fp024.java.study.App'    
+    mainClass = 'org.fp024.java.study.App'
 }
 
 tasks.named('test') {
@@ -52,23 +54,19 @@ tasks.named('test') {
     // 터미널에서 테스트 실행시 테스트 실행의 콘솔 출력을 위해 추가.
     // https://stackoverflow.com/questions/40954017/gradle-how-to-get-output-from-test-stderr-stdout-into-console
     testLogging {
-        outputs.upToDateWhen {false}
+        outputs.upToDateWhen { false }
         showStandardStreams = true
     }
     systemProperty "file.encoding", "${projectEncoding}"
 }
 
 /**
-   Scanner등으로 표준 입력받는 부분이 있다면..
-   아래 설정을 한다.
-   
-   run {
-    standardInput = System.in
-   }
-   
-   gradlew -q --console plain run 으로 실행
+ Scanner등으로 표준 입력받는 부분이 있다면..
+ 아래 설정을 한다.
 
-   참고: https://stackoverflow.com/questions/36723447/java-util-scanner-throws-nosuchelementexception-when-application-is-started-with
+ run {standardInput = System.in}gradlew -q --console plain run 으로 실행
+
+ 참고: https://stackoverflow.com/questions/36723447/java-util-scanner-throws-nosuchelementexception-when-application-is-started-with
  */
 run {
     systemProperty "file.encoding", "${projectEncoding}"

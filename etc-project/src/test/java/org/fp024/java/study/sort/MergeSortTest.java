@@ -1,7 +1,6 @@
-package org.fp024.java.study;
+package org.fp024.java.study.sort;
 
 import lombok.extern.slf4j.Slf4j;
-import org.fp024.java.study.sort.MergeSort;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
