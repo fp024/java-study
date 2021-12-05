@@ -14,7 +14,7 @@ class QuickSortTest {
   private final QuickSort quickSort = new QuickSort();
   private static final SortTestHelper util = SortTestHelper.getInstance();
   private static final int[] ORIGIN_INT_ARRAY =
-      RandomArrayUtil.createRandomArrayWithoutSet(10_00_000);
+      RandomArrayUtil.createRandomArrayWithoutSet(1_000_000);
 
   @BeforeEach
   void beforeEach() {

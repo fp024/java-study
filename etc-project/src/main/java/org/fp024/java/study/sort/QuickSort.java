@@ -38,7 +38,7 @@ class QuickSort {
       }
 
       // high의 왼쪽 방향 이동
-      while (high >= left + 1 && pivot <= array[high]) {
+      while (high > left && pivot <= array[high]) {
         high--;
       }
 
