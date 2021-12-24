@@ -9,14 +9,13 @@ group = 'org.fp024.java.study'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    version = JavaLanguageVersion.of("${javaVersion}")
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of("${javaVersion}"))
-    }
+  toolchain {
+    languageVersion = JavaLanguageVersion.of("${javaVersion}")
+  }
 }
 
-compileJava.options.encoding = "${projectEncoding}"
-compileTestJava.options.encoding = "${projectEncoding}"
+[compileJava, compileTestJava]*.options*.encoding = "${projectEncoding}"
+
 
 repositories {
     // Use Maven Central for resolving dependencies.
