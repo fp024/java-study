@@ -40,7 +40,7 @@ class RuntimeTest {
   }
 
   private List<PersonalInfo> makePersonalList() {
-    return IntStream.rangeClosed(1, 10_000_000)
+    return IntStream.rangeClosed(1, 1_000_000)
         .mapToObj(
             i -> {
               return new PersonalInfo("000000" + i, "홍길동" + i, "123-123-" + i);
