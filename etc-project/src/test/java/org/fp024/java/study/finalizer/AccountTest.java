@@ -1,5 +1,8 @@
 package org.fp024.java.study.finalizer;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
 /*
@@ -18,8 +21,12 @@ class AccountTest {
 
   @Test
   void 차단된_사람() {
-    Account account = new Account("차단인물");
-    account.transfer(100, "일반인B");
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          Account account = new Account("차단인물");
+          account.transfer(100, "일반인B");
+        });
   }
 
   @Test
@@ -34,5 +41,7 @@ class AccountTest {
 
     System.gc();
     Thread.sleep(3000L);
+
+    assertNull(account, "null은 유지되었지만, BrokenAccount의 transfer메서드는 실행되었다.");
   }
 }
