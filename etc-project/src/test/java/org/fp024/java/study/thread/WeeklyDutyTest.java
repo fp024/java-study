@@ -37,6 +37,7 @@ class ClassSelectThread {
     studentList.add("박지성");
     studentList.add("김수지");
     studentList.add("차승범");
+
     studentList.add("김지우");
     studentList.add("김미경");
     studentList.add("서영민");
@@ -44,7 +45,7 @@ class ClassSelectThread {
     studentList.add("최영화");
 
     System.out.println("주번 리스트");
-    for (int i = 0; i < 30; i++) {
+    while (studentList.size() > 0) {
       Runnable runnable = new WeeklyDuty(classSelectThread, studentList);
       new Thread(runnable).start();
     }
@@ -52,14 +53,14 @@ class ClassSelectThread {
 
   void print(List<String> studentList) {
     int index = (int) (Math.random() * 10);
-    try {
-      synchronized (this) {
+    synchronized (this) {
+      // 동기화 블록 안에서, 인덱스가 초과하는지에 대해, 배열의 크기를 검사해주면 try 블록은 없어도 되겠다.
+      // 30번 반복안에서 반드시 10명의 학생을 뽑아내지 못 할 수 있다.
+      // 30번 돌리는 반복을 List 가 0이 될때 반복을 종료하게 바꾸면 항상 10개를 뽑아낼 수 있다.
+      if (index < studentList.size()) {
         System.out.println(studentList.get(index));
         studentList.remove(index);
       }
-    } catch (Exception e) {
-      // 배열에서 이미 지워진 요소를 지우려할 때, 예외가 발생하는데..
-      // 이 부분에 대해서는 따로 처리해줘야할 것이 없음.
     }
   }
 }
