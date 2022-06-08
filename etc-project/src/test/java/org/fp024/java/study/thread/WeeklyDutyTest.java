@@ -45,7 +45,7 @@ class ClassSelectThread {
     studentList.add("최영화");
 
     System.out.println("주번 리스트");
-    while (studentList.size() > 0) {
+    while (!studentList.isEmpty()) {
       Runnable runnable = new WeeklyDuty(classSelectThread, studentList);
       new Thread(runnable).start();
     }
